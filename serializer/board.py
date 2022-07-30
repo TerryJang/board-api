@@ -36,7 +36,6 @@ class GetBoardResponseSchema(BaseBoardResponseSchema):
     created_at = fields.DateTime()
 
 
-
 class GetBoardListResponseSchema(BaseBoardResponseSchema):
     class Response(Schema):
         class BoardList(Schema):

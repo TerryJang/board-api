@@ -30,7 +30,3 @@ class BaseTestCase(unittest.TestCase):
         close_all_sessions()
         Base.metadata.drop_all(bind=mysql_connection_pool.engine)
         del self.app
-
-    def test_main(self):
-        rv = self.app.get('/')
-        assert rv.status_code == HTTPStatus.OK
