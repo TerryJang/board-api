@@ -1,6 +1,7 @@
 from flask import Flask
 
 from router.main import main
+from router.board import board
 from engine.mysql import mysql_connection_pool
 from settings import get_config
 from exception import register_error_handler
@@ -9,6 +10,7 @@ from exception import register_error_handler
 app = Flask(__name__)
 
 app.register_blueprint(main)
+app.register_blueprint(board)
 
 
 if __name__ == '__main__':
