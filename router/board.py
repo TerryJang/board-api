@@ -5,6 +5,7 @@ from flask import Blueprint, request, make_response, jsonify
 
 from serializer.board import CreateBoardBodySchema, UpdateBoardBodySchema, GetBoardListResponseSchema, GetBoardResponseSchema
 from service.board import BoardService
+from service.comment import CommentModel
 
 board = Blueprint('board', __name__, url_prefix='/boards')
 logger = logging.getLogger('server')

@@ -40,8 +40,8 @@ class BoardModel(Base):
 
     @staticmethod
     def get_boards(session):
-        return session.query(BoardModel).filter().all()
+        return session.query(BoardModel).filter(BoardModel.is_deleted == False).all()
 
     @staticmethod
     def get_board(session, board_id):
-        return session.query(BoardModel).filter(BoardModel.id == board_id).first()
+        return session.query(BoardModel).filter(BoardModel.id == board_id, BoardModel.is_deleted == False).first()
