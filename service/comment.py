@@ -1,6 +1,7 @@
 from engine.mysql import mysql_connection_pool
 from models.comment import CommentModel
 from exception import InvalidParam, ServerError, DEFINED_EXCEPTIONS
+from common.pagination import OffsetPagination
 
 
 class CommentService:
@@ -22,10 +23,22 @@ class CommentService:
             session.close()
 
     @staticmethod
-    def get_comments(board_id):
+    def get_comments(board_id, params):
         session = mysql_connection_pool.get_connection()
         try:
-            return CommentModel.get_comments(session=session, board_id=board_id)
+            queryset = session.query(CommentModel).filter(
+                CommentModel.board_id == board_id,
+                CommentModel.is_deleted == False
+            )
+
+            pagination, result = OffsetPagination(
+                model=CommentModel,
+                queryset=queryset,
+                size=params.get('size', 10),
+                page=params.get('page', 1),
+            ).paginate()
+
+            return pagination, result
 
         except Exception as e:
             if any([isinstance(e, exc) for exc in DEFINED_EXCEPTIONS]):

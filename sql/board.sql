@@ -55,3 +55,23 @@ CREATE TABLE develop.comment (
 CREATE INDEX IDX_COMMENT_BOARD_ID ON develop.comment (BOARD_ID ASC);
 CREATE INDEX IDX_COMMENT_PARENT ON develop.comment (parent ASC);
 CREATE INDEX IDX_BOARD_IS_DELETED ON develop.comment (is_deleted ASC);
+
+
+DROP TABLE IF EXISTS develop.keyword;
+
+-- COMMENT --
+CREATE TABLE develop.keyword (
+                                 id BIGINT NOT NULL AUTO_INCREMENT COMMENT '아이디',
+                                 writer VARCHAR (255) NOT NULL COMMENT '작성자',
+                                 keyword VARCHAR (255) NOT NULL COMMENT '키워드',
+                                 created_at DATETIME NOT NULL DEFAULT NOW() COMMENT '생성일',
+    -- PRIMARY KEY --
+                                 CONSTRAINT PK_KEYWORD_ID PRIMARY KEY(ID)
+    -- FOREIGN KEY --
+    -- UNIQUE --
+    -- CHECK --
+)
+;
+
+CREATE INDEX IDX_COMMENT_WRITER ON develop.keyword (writer ASC);
+CREATE INDEX IDX_COMMENT_KEYWORD ON develop.keyword (keyword ASC);
