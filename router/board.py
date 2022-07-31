@@ -3,9 +3,8 @@ from http import HTTPStatus
 
 from flask import Blueprint, request, make_response, jsonify
 
-from serializer.board import CreateBoardBodySchema, UpdateBoardBodySchema, GetBoardListResponseSchema, GetBoardResponseSchema
+from serializer.board import CreateBoardBodySchema, UpdateBoardBodySchema, GetBoardListResponseSchema, GetBoardResponseSchema, GetBoardListParamSchema
 from service.board import BoardService
-from service.comment import CommentModel
 
 board = Blueprint('board', __name__, url_prefix='/boards')
 logger = logging.getLogger('server')
@@ -35,8 +34,9 @@ def delete_board(board_id):
 
 @board.route('', methods=['GET'])
 def get_boards():
-    boards = BoardService.get_boards()
-    return make_response(GetBoardListResponseSchema().dump({'response': {'boards': boards}}), HTTPStatus.OK)
+    params = GetBoardListParamSchema().load(request.args)
+    pagination, boards = BoardService.get_boards(params)
+    return make_response(GetBoardListResponseSchema().dump({'response': {'pagination': pagination, 'boards': boards}}), HTTPStatus.OK)
 
 
 @board.route('/<int:board_id>', methods=['GET'])
