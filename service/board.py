@@ -1,6 +1,7 @@
 from engine.mysql import mysql_connection_pool
 from models.board import BoardModel
 from exception import InvalidParam, ServerError, DEFINED_EXCEPTIONS
+from common.pagination import OffsetPagination
 
 
 class BoardService:
@@ -67,10 +68,19 @@ class BoardService:
             session.close()
 
     @staticmethod
-    def get_boards():
+    def get_boards(params):
         session = mysql_connection_pool.get_connection()
         try:
-            return BoardModel.get_boards(session=session)
+            queryset = session.query(BoardModel).filter(BoardModel.is_deleted == False)
+            pagination, result = OffsetPagination(
+                model=BoardModel,
+                queryset=queryset,
+                size=params.get('size', 10),
+                page=params.get('page', 1),
+            ).paginate()
+
+            return pagination, result
+
 
         except Exception as e:
             if any([isinstance(e, exc) for exc in DEFINED_EXCEPTIONS]):

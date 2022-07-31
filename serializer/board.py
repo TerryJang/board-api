@@ -1,6 +1,14 @@
 from marshmallow import Schema, fields, validates_schema, ValidationError
 
 
+class OffsetPaginationSchema(Schema):
+    total_count = fields.Integer()
+    has_prev_page = fields.Boolean()
+    has_next_page = fields.Boolean()
+    current_page = fields.Integer()
+    current_count = fields.Integer()
+
+
 class BaseBoardResponseSchema(Schema):
     pass
 
@@ -45,5 +53,11 @@ class GetBoardListResponseSchema(BaseBoardResponseSchema):
             created_at = fields.DateTime()
 
         boards = fields.Nested(BoardList(), many=True)
+        pagination = fields.Nested(OffsetPaginationSchema())
 
     response = fields.Nested(Response())
+
+
+class GetBoardListParamSchema(Schema):
+    page = fields.Integer()
+    size = fields.Integer()
