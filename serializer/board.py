@@ -28,12 +28,11 @@ class UpdateBoardBodySchema(BaseBoardBodySchema):
     title = fields.String()
     content = fields.String()
     writer = fields.String()
-    password = fields.String()
+    password = fields.String(required=True)
 
 
 class DeleteBoardBodySchema(BaseBoardBodySchema):
-    writer = fields.String()
-    password = fields.String()
+    password = fields.String(required=True)
 
 
 class GetBoardResponseSchema(BaseBoardResponseSchema):
@@ -61,3 +60,5 @@ class GetBoardListResponseSchema(BaseBoardResponseSchema):
 class GetBoardListParamSchema(Schema):
     page = fields.Integer()
     size = fields.Integer()
+    writer = fields.String()
+    title = fields.String()

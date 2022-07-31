@@ -13,6 +13,7 @@ class CreateCommentBodySchema(BaseCommentBodySchema):
     content = fields.String(required=True)
     writer = fields.String(required=True)
     password = fields.String(required=True)
+    parent = fields.Integer()
 
 
 class GetCommentListResponseSchema(BaseCommentResponseSchema):

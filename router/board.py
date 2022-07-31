@@ -5,6 +5,7 @@ from flask import Blueprint, request, make_response, jsonify
 
 from serializer.board import CreateBoardBodySchema, UpdateBoardBodySchema, GetBoardListResponseSchema, GetBoardResponseSchema, GetBoardListParamSchema
 from service.board import BoardService
+from common.utils import Utils
 
 board = Blueprint('board', __name__, url_prefix='/boards')
 logger = logging.getLogger('server')
@@ -20,6 +21,8 @@ def create_board():
 @board.route('/<int:board_id>', methods=['PUT'])
 def update_board(board_id):
     validated_data = UpdateBoardBodySchema().load(request.json)
+    board = BoardService.get_board(board_id=board_id)
+    Utils.check_password(validated_data['password'], board.password)
     BoardService.update_board(board_id=board_id, data=validated_data)
     return make_response(jsonify({'response': {}}), HTTPStatus.OK)
 
@@ -27,7 +30,8 @@ def update_board(board_id):
 @board.route('/<int:board_id>', methods=['DELETE'])
 def delete_board(board_id):
     validated_data = UpdateBoardBodySchema().load(request.json)
-    # 작성자와 비밀번호가 맞는지 확인
+    board = BoardService.get_board(board_id=board_id)
+    Utils.check_password(validated_data['password'], board.password)
     BoardService.delete_board(board_id=board_id)
     return make_response(jsonify({'response': {}}), HTTPStatus.OK)
 

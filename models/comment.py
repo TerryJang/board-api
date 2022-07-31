@@ -9,6 +9,7 @@ class CommentModel(Base):
 
     id = Column(BigInteger, primary_key=True, autoincrement=True, comment='아이디')
     board_id = Column(BigInteger, ForeignKey("board.id"), comment='게시판 글 아이디')
+    parent = Column(BigInteger, comment='댓글 아이디')
     content = Column(String(255), comment='내용')
     writer = Column(String(255), comment='작성자')
     password = Column(String(255), comment='비밀번호')
