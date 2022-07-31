@@ -33,7 +33,7 @@ class BoardModel(Base):
         now = datetime.now()
         data = {
             "is_deleted": True,
-            "deleted_at": now.strftime("%Y-%m-%d %H:%M:%S")
+            "deleted_at": now
         }
         session.query(BoardModel).filter(BoardModel.id == board_id).update(data)
         return True

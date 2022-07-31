@@ -1,7 +1,6 @@
 from http import HTTPStatus
 
 from . import BaseTestCase
-from .test_board import TestBoard
 
 
 class TestComment(BaseTestCase):
@@ -28,6 +27,5 @@ class TestComment(BaseTestCase):
 
     def test_get_boards(self):
         self.test_create_comment()
-
         res = self.app.get(f'/boards/{self.board_id}/comments')
         assert res.status_code == HTTPStatus.OK
