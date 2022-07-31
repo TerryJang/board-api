@@ -5,6 +5,7 @@ from flask import Blueprint, request, make_response, jsonify
 
 from serializer.board import CreateBoardBodySchema, UpdateBoardBodySchema, GetBoardListResponseSchema, GetBoardResponseSchema, GetBoardListParamSchema
 from service.board import BoardService
+from service.keyword import KeywordService
 from common.utils import Utils
 
 board = Blueprint('board', __name__, url_prefix='/boards')
@@ -15,6 +16,8 @@ logger = logging.getLogger('server')
 def create_board():
     validated_data = CreateBoardBodySchema().load(request.json)
     BoardService.create_board(validated_data)
+    # TODO : 비동기 처리로 개발해야함.
+    KeywordService.send_keyword_notification(validated_data['content'])
     return make_response(jsonify({'response': {}}), HTTPStatus.OK)
 
 

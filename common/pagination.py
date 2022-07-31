@@ -32,6 +32,3 @@ class OffsetPagination:
         }
 
         return pagination, result
-
-class CursorPagination:
-    pass

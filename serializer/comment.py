@@ -1,4 +1,5 @@
-from marshmallow import Schema, fields, validates_schema, ValidationError
+from . import OffsetPaginationSchema
+from marshmallow import Schema, fields
 
 
 class BaseCommentResponseSchema(Schema):
@@ -25,5 +26,11 @@ class GetCommentListResponseSchema(BaseCommentResponseSchema):
             created_at = fields.DateTime()
 
         comments = fields.Nested(CommentList(), many=True)
+        pagination = fields.Nested(OffsetPaginationSchema())
 
     response = fields.Nested(Response())
+
+
+class GetCommentListParamSchema(Schema):
+    page = fields.Integer()
+    size = fields.Integer()
