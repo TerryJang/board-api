@@ -23,7 +23,7 @@ class TestBoard(BaseTestCase):
             "title": "수정된 테스트 제목",
             "content": "수정된 테스트 내용",
             "writer": "수정된 테스트 작성자",
-            "password": "수정된 테스트 비밀번호"
+            "password": "테스트 비밀번호"
         }
 
         res = self.app.put('/boards/1', json=data)
@@ -31,7 +31,10 @@ class TestBoard(BaseTestCase):
 
     def test_delete_board(self):
         self.test_create_board()
-        res = self.app.delete(f'/boards/{self.board_id}')
+        data = {
+            "password": "테스트 비밀번호"
+        }
+        res = self.app.delete(f'/boards/{self.board_id}', json=data)
         assert res.status_code == HTTPStatus.OK
 
     def test_get_board(self):
